@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "493212937804",
+    "project_id": "ssctir",
+    "storage_bucket": "ssctir.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:493212937804:android:a5817f8cbd01c451c3cee9",
+        "android_client_info": {
+          "package_name": "com.example.tir"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "493212937804-1eoosvdr0l0thkob4e07bmdu72e4b7pn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrMTCz0lfE5L9XU7nLzExMHZ0Z24i9ApI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "493212937804-1eoosvdr0l0thkob4e07bmdu72e4b7pn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "493212937804-8sbppmq95jcc8ti37vup7ehrat8ibpt5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.tir"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
