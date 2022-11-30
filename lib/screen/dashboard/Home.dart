@@ -1,12 +1,8 @@
-
-
 import 'dart:io';
-
-import 'package:file_picker/file_picker.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-
 import '../connectionAndInscription/loadingPage.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -20,46 +16,36 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final _auth = FirebaseAuth.instance;
-  PlatformFile? pickedFile;
-  UploadTask? uploadTask;
+  List<String> Files = [];
+  late int nombreDeFiles;
 
-  Future selectFile() async {
-    final result = await FilePicker.platform.pickFiles();
-    if (result == null ) return;
+  Future getListeFile() async {
+    var month = new DateTime.now().month;
+    var year = new DateTime.now().year;
+    final results = await FirebaseStorage.instance.ref('assets/uploadFiles/$month-$year/').listAll();
 
-    setState(() {
-      pickedFile = result.files.first;
+    results.items.forEach((element) async{
+
+      Files.add(await FirebaseStorage.instance.ref('assets/uploadFiles/$month-$year/${element.name}').getDownloadURL());
     });
+    nombreDeFiles = results.items.length;
+    print(nombreDeFiles);
+    return Files;
   }
 
-  Future uploadFile() async {
-    final path = 'assets/uploadFiles/${pickedFile!.name}';
-    final file = File(pickedFile!.path!);
-
-    final ref = FirebaseStorage.instance.ref().child(path);
-    setState(() {
-      uploadTask = ref.putFile(file);
-    });
-
-
-    final snapshot = await uploadTask!.whenComplete(() => {});
-
-    final urlDownload = await snapshot.ref.getDownloadURL();
-    print('Download Link: $urlDownload');
-
-    setState(() {
-      uploadTask = null;
-    });
+  @override
+  void initState() {
+    super.initState();
+    getListeFile();
   }
-
-  void logout(){
+  void logout() {
     _auth.signOut();
 
     Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => LoadingPage()
     ));
   }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,59 +57,55 @@ class _HomeScreenState extends State<HomeScreen> {
             }),
         title: Text('Home Pages'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if(pickedFile != null)
-              Expanded(
-                child: Container(
-                  color: Colors.blue,
-                  child: Image.file(
-                    File(pickedFile!.path!),
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  )
-                ),
-              ),
-            ElevatedButton(onPressed: selectFile, child: Text('Select File')),
-            ElevatedButton(onPressed: uploadFile, child: Text('Upload File')),
-            SizedBox(height: 32,),
-            buidProgress(),
-          ],
-        ),
-      )
+      body: Column(
+        children: [
+          Text('Photo du mois', style: TextStyle(color: Colors.white,)),
+          FutureBuilder(
+            future: getListeFile(),
+            builder: ((context, snapshot) {
+              if(snapshot.connectionState == ConnectionState.done && snapshot.hasData){
+                return CarouselSlider(
+                  options: CarouselOptions(
+                    height: 400.0,
+                    initialPage: 0,
+                    enableInfiniteScroll: false,
+                    autoPlay: true,
+                  ),
+                  items: Files.map((i) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return Container(
+                          width: MediaQuery
+                              .of(context)
+                              .size
+                              .width,
+                          margin: EdgeInsets.symmetric(horizontal: 5.0),
+                          decoration: BoxDecoration(
+                              color: Colors.amber
+                          ),
+                          child: Container(
+                              child: Image.network(
+                                i,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                              )
+                          ),
+                        );
+                      },
+                    );
+                  }).toList(),
+                );
+              }
+              if(snapshot.connectionState == ConnectionState.waiting || !snapshot.hasData){
+                return CircularProgressIndicator();
+              }
+              return Container();
+            }),
+          ),
+        ]
+      ),
     );
   }
-  Widget buidProgress() => StreamBuilder<TaskSnapshot>(
-    stream: uploadTask?.snapshotEvents,
-    builder: (context, snaphot){
-      if(snaphot.hasData){
-        final data = snaphot.data!;
-        double progress = data.bytesTransferred / data.totalBytes;
-
-        return SizedBox(
-          height: 50,
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              LinearProgressIndicator(
-                value: progress,
-                backgroundColor: Colors.grey,
-                color: Colors.green,
-              ),
-              Center(
-                child: Text(
-                  '${(100 * progress).roundToDouble()} %',
-                  style: TextStyle(color: Colors.white),
-                ),
-              )
-            ],
-          ),
-        );
-      }else {
-        return const SizedBox(height: 50,);
-      }
-    }
-  );
 }
+
+

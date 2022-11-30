@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:tir/screen/connectionAndInscription/loadingPage.dart';
 import 'package:tir/screen/dashboard/Home.dart';
+import 'package:tir/screen/screenAdmin/AddImage.dart';
 import 'firebase_options.dart';
 
 void main() async{
@@ -44,7 +45,7 @@ class _MyAppState extends State<MyApp> {
       initialRoute: FirebaseAuth.instance.currentUser == null ? LoadingPage.id : HomeScreen.id,
       routes: {
         LoadingPage.id: (context) => LoadingPage(),
-        HomeScreen.id: (context) => HomeScreen(),
+        HomeScreen.id: (context) => AddImage(),
       },
       home: LoadingPage(),
     );
