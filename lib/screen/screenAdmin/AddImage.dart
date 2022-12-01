@@ -7,6 +7,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:tir/screen/dashboard/Home.dart';
 
+import '../../commons/commons.dart';
 import '../connectionAndInscription/loadingPage.dart';
 
 
@@ -65,7 +66,7 @@ class _AddImageState extends State<AddImage> {
             children: [
               Expanded(
                 child: Container(
-                    child: getFilesWidegets(Files)
+                    child: PersonalCarousel(files: Files, network: false,)
                 ),
               ),
               ElevatedButton(onPressed: selectFile, child: Text('Select File',)),
@@ -78,48 +79,6 @@ class _AddImageState extends State<AddImage> {
             ],
           ),
         )
-    );
-  }
-
-  Widget getFilesWidegets(List<String> files) {
-    List<String> liste = [];
-
-    for (var i = 0; i < files.length; i++) {
-      liste.add(
-          files[i].toString()
-      );
-    }
-    return CarouselSlider(
-      options: CarouselOptions(
-        height: 400.0,
-        initialPage: 0,
-        enableInfiniteScroll: false,
-        autoPlay: true,
-      ),
-      items: liste.map((i) {
-        return Builder(
-          builder: (BuildContext context) {
-            return Container(
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width,
-              margin: EdgeInsets.symmetric(horizontal: 5.0),
-              decoration: BoxDecoration(
-                  color: Colors.amber
-              ),
-              child: Container(
-                  color: Colors.red,
-                  child: Image.file(
-                    File(i),
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  )
-              ),
-            );
-          },
-        );
-      }).toList(),
     );
   }
 }

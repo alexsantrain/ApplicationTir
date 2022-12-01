@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tir/screen/connectionAndInscription/services/UserService.dart';
 
+import '../../commons/commons.dart';
 import 'connection.dart';
 class LoadingPage extends StatefulWidget {
   const LoadingPage({Key? key}) : super(key: key);
@@ -18,8 +19,7 @@ class _LoadingPageState extends State<LoadingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: Text('Saint Sylvestre Cappel Saint Sebastien',
-                style: TextStyle(color: Colors.black, fontSize: 19))),
+            title: Text('Saint Sylvestre Cappel Saint Sebastien')),
         body: Container(
           height: MediaQuery.of(context).size.height,
           width:  MediaQuery.of(context).size.width,
@@ -37,33 +37,7 @@ class _LoadingPageState extends State<LoadingPage> {
                   height: 300,
                   width: 150,
                 ),
-                ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.elliptical(100, 100)),
-                  child: Stack(
-                    children: <Widget>[
-                      Positioned.fill(
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.elliptical(100, 100)),
-                            color: Color.fromRGBO(55, 139, 136, 0.5),
-                          ),
-                        ),
-                      ),
-                      TextButton(
-                        style: TextButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                          textStyle: const TextStyle(fontSize: 20),
-                        ),
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => Connection()
-                          ));
-                        },
-                        child: Text('Go !',style: TextStyle(color: Colors.white)),
-                      ),
-                    ],
-                  ),
-                ),
+                BtnGo(direction: Connection(),text: 'Go !'),
                 Image(
                   image: AssetImage('assets/images/logo-archers.png'),
                   height: 300,

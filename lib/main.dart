@@ -40,7 +40,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         textSelectionTheme: TextSelectionThemeData(cursorColor: Colors.black,),
         scaffoldBackgroundColor: const Color.fromRGBO(50, 129, 126, 1),
-        appBarTheme: AppBarTheme(backgroundColor: Color.fromRGBO(50, 129, 126, 1)),
+        appBarTheme: AppBarTheme(backgroundColor: Color.fromRGBO(50, 129, 126, 1), titleTextStyle: TextStyle(color: Colors.black, fontSize: 19)),
       ),
       initialRoute: FirebaseAuth.instance.currentUser == null ? LoadingPage.id : HomeScreen.id,
       routes: {

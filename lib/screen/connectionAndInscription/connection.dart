@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tir/screen/connectionAndInscription/inscription.dart';
 import 'package:tir/screen/connectionAndInscription/services/UserService.dart';
 
+import '../../commons/commons.dart';
 import '../../models/UserModel.dart';
 import '../dashboard/Home.dart';
 
@@ -28,8 +29,7 @@ class _ConnectionState extends State<Connection> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: Text('Saint Sylvestre Cappel Saint Sebastien',
-                style: TextStyle(color: Colors.black, fontSize: 19))),
+            title: Text('Saint Sylvestre Cappel Saint Sebastien'),),
         body: SingleChildScrollView(
           child: Container(
             width: MediaQuery.of(context).size.width,
@@ -50,44 +50,8 @@ class _ConnectionState extends State<Connection> {
                         height: 200,
                         width: 150,
                       ),
-                      Container(
-                        height: 70,
-                        width: 200,
-                        child: TextFormField(
-                          controller: email,
-                          validator: (value) {
-                            if ( value == null || value.isEmpty) {
-                              return 'Entrer votre email';
-                            }
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                            label: Text("Votre adresse email"),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 80,
-                        width: 200,
-                        child: TextFormField(
-                          controller: _pass,
-                          validator: (value) {
-                            if ( value == null || value.isEmpty) {
-                              return 'Entrer votre mot de passe';
-                            }
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                            label: Text("Votre mot de passe"),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                            ),
-                          ),
-                        ),
-                      ),
+                      InputForm(controller: email, textValidator: 'Entrer votre email', textLabel: 'Votre adresse email',),
+                      InputForm(controller: _pass, textValidator: 'Entrer votre mot de passe', textLabel: 'Votre mot de passe'),
                       TextButton(
                         style:  TextButton.styleFrom(
                             padding: EdgeInsets.zero,
@@ -116,48 +80,7 @@ class _ConnectionState extends State<Connection> {
                           style: TextStyle(color: Colors.black),
                         ),
                       ),
-                      ClipRRect(
-                        borderRadius:
-                        BorderRadius.all(Radius.elliptical(100, 100)),
-                        child: Stack(
-                          children: <Widget>[
-                            Positioned.fill(
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                  borderRadius: BorderRadius.all(
-                                      Radius.elliptical(100, 100)),
-                                  color: Color.fromRGBO(55, 139, 136, 0.5),
-                                ),
-                              ),
-                            ),
-                            TextButton(
-                              style: TextButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 30, vertical: 15),
-                                textStyle: const TextStyle(fontSize: 20),
-                              ),
-                              onPressed: () {
-                                if(_formKey.currentState!.validate() ){
-                                  _userService.auth((UserModel(email: email.value.text, password: _pass.value.text)), true ).then((value) => {
-                                    if(value.id != null ){
-                                      setState(() {
-                                        email.text = "";
-                                        _pass.text = "";
-                                      }),
-                                      Navigator.of(context).push(MaterialPageRoute(
-                                          builder: (context) => HomeScreen()
-                                      ))
-
-                                    }
-                                  });
-                                };
-                              },
-                              child: Text('Go !',
-                                  style: TextStyle(color: Colors.white)),
-                            ),
-                          ],
-                        ),
-                      ),
+                      BtnService(text: 'Go !', email: email, pass: _pass, setState: setState, userService: _userService, formKey: _formKey,),
                       Padding(
                         padding: EdgeInsets.only(top: 30),
                         child: Image(
