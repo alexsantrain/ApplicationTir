@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
             future: getListeFile(),
             builder: ((context, snapshot) {
               if(snapshot.hasData){
-                return PersonalCarousel(files: files, network: true,);
+                return PersonalCarousel(files: files, network: true,height: 400,);
               }
               if(!snapshot.hasData){
                 return CircularProgressIndicator();

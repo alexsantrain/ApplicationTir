@@ -50,8 +50,8 @@ class _ConnectionState extends State<Connection> {
                         height: 200,
                         width: 150,
                       ),
-                      InputForm(controller: email, textValidator: 'Entrer votre email', textLabel: 'Votre adresse email',),
-                      InputForm(controller: _pass, textValidator: 'Entrer votre mot de passe', textLabel: 'Votre mot de passe'),
+                      InputForm(controller: email, textValidator: 'Entrer votre email', textLabel: 'Votre adresse email',height: 80,width: 200),
+                      InputForm(controller: _pass, textValidator: 'Entrer votre mot de passe', textLabel: 'Votre mot de passe', height: 80,width: 200,),
                       TextButton(
                         style:  TextButton.styleFrom(
                             padding: EdgeInsets.zero,
@@ -80,7 +80,25 @@ class _ConnectionState extends State<Connection> {
                           style: TextStyle(color: Colors.black),
                         ),
                       ),
-                      BtnService(text: 'Go !', email: email, pass: _pass, setState: setState, userService: _userService, formKey: _formKey,),
+                      BtnGo(text: 'Go !', onpress: () {
+                        if (_formKey.currentState!.validate()) {
+                          _userService
+                              .auth(
+                              (UserModel(
+                                  email: email.value.text,
+                                  password: _pass.value.text)),
+                              context)
+                              .then((value) => {
+                            if (value.id != null)
+                              {
+                                setState(() {
+                                  email.text = "";
+                                  _pass.text = "";
+                                }),
+                              }
+                          });
+                        }
+                      },),
                       Padding(
                         padding: EdgeInsets.only(top: 30),
                         child: Image(

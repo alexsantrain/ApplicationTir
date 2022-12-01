@@ -66,7 +66,7 @@ class _AddImageState extends State<AddImage> {
             children: [
               Expanded(
                 child: Container(
-                    child: PersonalCarousel(files: Files, network: false,)
+                    child: PersonalCarousel(files: Files, network: false,height: 400,)
                 ),
               ),
               ElevatedButton(onPressed: selectFile, child: Text('Select File',)),

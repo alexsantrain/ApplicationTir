@@ -37,7 +37,11 @@ class _LoadingPageState extends State<LoadingPage> {
                   height: 300,
                   width: 150,
                 ),
-                BtnGo(direction: Connection(),text: 'Go !'),
+                BtnGo(onpress: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => Connection(),
+                  ));
+                },text: 'Go !'),
                 Image(
                   image: AssetImage('assets/images/logo-archers.png'),
                   height: 300,

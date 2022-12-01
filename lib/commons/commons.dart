@@ -6,60 +6,38 @@ import 'package:flutter/material.dart';
 import '../models/UserModel.dart';
 
 class BtnGo extends StatelessWidget {
-  const BtnGo({Key? key, required this.direction, required this.text})
-      : super(key: key);
-  final direction; //Utiliser plutôt un void Callback
+  const BtnGo({Key? key, required this.onpress, required this.text}) : super(key: key);
+  final VoidCallback onpress;
   final String text;
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      // Voir plutôt Elevated Button et decoration, peut être pas forcément besoin d'un ClipRRect
-      borderRadius: const BorderRadius.all(Radius.elliptical(100, 100)),
-      child: Stack(
-        children: <Widget>[
-          Positioned.fill(
-            child: Container(
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.elliptical(100, 100)),
-                color: Color.fromRGBO(55, 139, 136, 0.5),
-              ),
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: const BorderRadius.all(Radius.elliptical(100, 100)),),backgroundColor: Color.fromRGBO(55, 139, 136, 0.5),padding:  EdgeInsets.symmetric(horizontal: 30, vertical: 15)
+      ),
+      onPressed: onpress,
+      child: Text(text,
+            style: TextStyle(
+              fontSize: 20,
+              color:  Colors.white,
             ),
-          ),
-          TextButton(
-            style: TextButton.styleFrom(
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-              textStyle: const TextStyle(fontSize: 20),
-            ),
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => direction,
-              ));
-            },
-            child: Text(text, style: const TextStyle(color: Colors.white)),
-          ),
-        ],
       ),
     );
   }
 }
 
 class InputForm extends StatelessWidget {
-  const InputForm(
-      {Key? key,
-      required this.controller,
-      required this.textValidator,
-      required this.textLabel})
-      : super(key: key);
-  final controller; // Mieux typer en indiquant TextEditingController
+  const InputForm({Key? key, required this.controller, required this.textValidator,required this.textLabel, required this.height, required this.width}): super(key: key);
+  final TextEditingController controller;
   final String textValidator;
   final String textLabel;
+  final double height;
+  final double width;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      // Peut être plutôt passer une height et width en paramètre pour que ce soit plus réutilisable
-      height: 80,
-      width: 200,
+      height: height,
+      width: width,
       child: TextFormField(
         controller: controller,
         validator: (value) {
@@ -144,16 +122,16 @@ class BtnService extends StatelessWidget {
 }
 
 class PersonalCarousel extends StatelessWidget {
-  const PersonalCarousel({Key? key, required this.files, required this.network})
+  const PersonalCarousel({Key? key, required this.files, required this.network, required this.height})
       : super(key: key);
   final List<String> files;
-  final network; // Typer pour avoir un bool
+  final bool network;
+  final double height;
   @override
   Widget build(BuildContext context) {
     return CarouselSlider(
       options: CarouselOptions(
-        height:
-            400.0, // Idem, peut être passer la height quand on l'appelle plutôt
+        height: height,
         initialPage: 0,
         enableInfiniteScroll: false,
         autoPlay: true,
