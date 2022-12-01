@@ -43,7 +43,7 @@ class _InscriptionState extends State<Inscription> {
   TextEditingController email = TextEditingController();
   TextEditingController _pass = TextEditingController();
   TextEditingController _confirmPass = TextEditingController();
-  TextEditingController controllerEquipe = TextEditingController();
+  TextEditingController Equipe = TextEditingController();
 
   List<ItemSelect> listeEquipe = [
     ItemSelect(label: "Aucune"),
@@ -179,7 +179,7 @@ class _InscriptionState extends State<Inscription> {
                   child: SelectModalFlutter(
                     title: 'Votre équipe',
                     searchText: 'Selectionne Ton Equipe',
-                    controller: controllerEquipe,
+                    controller: Equipe,
                     listItemSelect: listeEquipe,
                     borderTextField: InputBorder.none,
                     boxDecoration: BoxDecoration(
@@ -280,9 +280,8 @@ class _InscriptionState extends State<Inscription> {
                         ),
                         onPressed: () {
                           if(_formKey.currentState!.validate() && dateInput.value != "" ){
-                            _userService.dbauth((UserModel()));
-                            _userService.auth((UserModel(email: email.value.text, password: _pass.value.text)), false , context).then((value) => {
-                              if(value.id != null ){
+                            _userService.created((UserModel(email: email.value.text, password: _pass.value.text,firstname: firstname.text,lastname: lastname.text,birthday: dateInput.text, Equipe: Equipe.text  )) , context).then((value) => {
+                              if(value?.email != null ){
                                 setState(() {
                                   firstname.text = "";
                                   lastname.text = "";

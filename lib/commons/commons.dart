@@ -103,7 +103,7 @@ class BtnService extends StatelessWidget {
             ),
             onPressed: () {
               if(formKey.currentState!.validate() ){
-                userService.auth((UserModel(email: email.value.text, password: pass.value.text)), true, context ).then((value) => {
+                userService.auth((UserModel(email: email.value.text, password: pass.value.text)), context ).then((value) => {
                   if(value.id != null ){
                     setState(() {
                       email.text = "";

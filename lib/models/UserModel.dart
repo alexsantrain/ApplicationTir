@@ -7,7 +7,8 @@ class UserModel {
   String birthday;
   String lastname;
   String firstname;
-  UserModel({ this.id = '', this.email = ' ', this.password = '', this.birthday = '', this.lastname = '', this.firstname = '' });
+  String Equipe;
+  UserModel({ this.id = '', this.email = ' ', this.password = '', this.birthday = '', this.lastname = '', this.firstname = '', this.Equipe = '' });
 
   Map<String, dynamic> toJson() => {
     'firstname' : firstname,
