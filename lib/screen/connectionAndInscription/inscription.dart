@@ -280,6 +280,7 @@ class _InscriptionState extends State<Inscription> {
                         ),
                         onPressed: () {
                           if(_formKey.currentState!.validate() && dateInput.value != "" ){
+                            _userService.dbauth((UserModel()));
                             _userService.auth((UserModel(email: email.value.text, password: _pass.value.text)), false , context).then((value) => {
                               if(value.id != null ){
                                 setState(() {
