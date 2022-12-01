@@ -4,6 +4,7 @@ import 'package:tir/models/UserModel.dart';
 import 'package:tir/screen/connectionAndInscription/services/UserService.dart';
 import 'package:tir/screen/dashboard/Home.dart';
 
+import '../../commons/commons.dart';
 import 'connection.dart';
 class Inscription extends StatefulWidget {
   const Inscription({Key? key}) : super(key: key);
@@ -84,57 +85,8 @@ class _InscriptionState extends State<Inscription> {
                 Container(
                   child: Text(""),
                 ),
-                Container(
-                  height: 85,
-                  width: 200,
-                  child: TextFormField(
-                    controller: firstname,
-                    validator: (value) {
-                      if ( value == null || value.isEmpty) {
-                        return 'Entrer votre Prénom';
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                      label: Text("Prénom", style: TextStyle(color: Colors
-                          .black)),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black),
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black),
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  height: 85,
-                  width: 200,
-                  child: TextFormField(
-                    controller: lastname,
-                    validator: (value) {
-                      if ( value == null || value.isEmpty) {
-                        return 'Entrer votre Nom de Naissance';
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                      label: Text(
-                          "Nom de Naissance", style: TextStyle(color: Colors
-                          .black)),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black),
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black),
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                    ),
-                  ),
-                ),
+                InputForm(controller: firstname, textValidator: 'Entrer votre Prénom', textLabel: 'Prénom', height: 85, width: 200,),
+                InputForm(controller: lastname, textValidator: 'Entrer votre Nom de Naissance', textLabel: 'Nom de Naissance', height: 85, width: 200,),
                 Container(
                   width: 215,
                   child: TextFormField(
@@ -259,50 +211,23 @@ class _InscriptionState extends State<Inscription> {
                     ),
                   ),
                 ),
-                ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.elliptical(100, 100)),
-                  child: Stack(
-                    children: <Widget>[
-                      Positioned.fill(
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.all(
-                                Radius.elliptical(100, 100)),
-                            color: Color.fromRGBO(55, 139, 136, 0.5),
-                          ),
-                        ),
-                      ),
-                      TextButton(
-                        style: TextButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(horizontal: 30,
-                              vertical: 15),
-                          textStyle: const TextStyle(fontSize: 20),
-                        ),
-                        onPressed: () {
-                          if(_formKey.currentState!.validate() && dateInput.value != "" ){
-                            _userService.created((UserModel(email: email.value.text, password: _pass.value.text,firstname: firstname.text,lastname: lastname.text,birthday: dateInput.text, Equipe: Equipe.text  )) , context).then((value) => {
-                              if(value?.email != null ){
-                                setState(() {
-                                  firstname.text = "";
-                                  lastname.text = "";
-                                  dateInput.text = "";
-                                  email.text = "";
-                                  _pass.text = "";
-                                  _confirmPass.text = "";
-                                }),
-                                Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => HomeScreen()
-                            ))
-                              }
-                            });
-                          };
-                        },
-                        child: Text('Go !', style: TextStyle(color: Colors
-                            .white)),
-                      ),
-                    ],
-                  ),
-                ),
+                BtnGo(onpress: () { if(_formKey.currentState!.validate() && dateInput.value != "" ){
+                  _userService.created((UserModel(email: email.value.text, password: _pass.value.text,firstname: firstname.text,lastname: lastname.text,birthday: dateInput.text, Equipe: Equipe.text  )) , context).then((value) => {
+                    if(value?.email != null ){
+                      setState(() {
+                        firstname.text = "";
+                        lastname.text = "";
+                        dateInput.text = "";
+                        email.text = "";
+                        _pass.text = "";
+                        _confirmPass.text = "";
+                      }),
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => HomeScreen()
+                      ))
+                    }
+                  });
+                } }, text: 'Go !',),
               ],
             ),
           ),

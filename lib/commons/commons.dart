@@ -57,69 +57,6 @@ class InputForm extends StatelessWidget {
   }
 }
 
-class BtnService extends StatelessWidget {
-  // Quelle diff avec le premier btn ? Si c'est le côté email, etc, plutôt le passer dans le callback.
-  const BtnService(
-      {Key? key,
-      required this.text,
-      required this.email,
-      required this.pass,
-      required this.setState,
-      required this.userService,
-      required this.formKey})
-      : super(key: key);
-  final String text;
-  final email; //Idem, typer au maximum
-  final pass;
-  final setState;
-  final userService;
-  final formKey;
-  @override
-  Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: const BorderRadius.all(Radius.elliptical(100, 100)),
-      child: Stack(
-        children: <Widget>[
-          Positioned.fill(
-            child: Container(
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.elliptical(100, 100)),
-                color: Color.fromRGBO(55, 139, 136, 0.5),
-              ),
-            ),
-          ),
-          TextButton(
-            style: TextButton.styleFrom(
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-              textStyle: const TextStyle(fontSize: 20),
-            ),
-            onPressed: () {
-              if (formKey.currentState!.validate()) {
-                userService
-                    .auth(
-                        (UserModel(
-                            email: email.value.text,
-                            password: pass.value.text)),
-                        true,
-                        context)
-                    .then((value) => {
-                          if (value.id != null)
-                            {
-                              setState(() {
-                                email.text = "";
-                                pass.text = "";
-                              }),
-                            }
-                        });
-              }
-            },
-            child: Text(text, style: const TextStyle(color: Colors.white)),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 class PersonalCarousel extends StatelessWidget {
   const PersonalCarousel({Key? key, required this.files, required this.network, required this.height})
